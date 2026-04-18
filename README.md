@@ -13,7 +13,6 @@ A professional Quality Control (QC) tool for Data Processing specialists. This P
 - Python 3.x
 - Libraries: `pandas`, `numpy`, `pyreadstat`, `scipy`
 
-```bash
 pip install pandas numpy pyreadstat scipy
 📖 How to Use
 Run python odkurzacz_danych.py.
