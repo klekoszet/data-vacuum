@@ -1,51 +1,71 @@
 # [EN] Survey Data Cleaner - Automated Quality Control
 
-A professional Quality Control (QC) tool for Data Processing. This Python application automates the detection and removal of low-quality responses in survey datasets (`.sav`). It implements industry-standard data cleaning algorithms, including multivariate outlier detection.
+## 1. Project Goal
+A local GUI application designed to automate Quality Control (QC) and data cleaning for quantitative survey research (`.sav` files). The tool implements industry-standard data validation algorithms—from basic speeder detection to advanced multivariate outlier identification—ensuring the high methodological integrity of research datasets.
 
-## 🚀 Key Features
-- **Speeder Detection:** Identifies respondents who completed the survey too quickly based on a customizable median time threshold.
-- **Straightliner Detection:** Calculates row variance across matrix questions to flag respondents giving identical answers (flatlining).
-- **Long String Analysis:** Finds the maximum consecutive identical responses in grid questions.
-- **Missing Data Filter:** Flags cases exceeding a specified percentage of missing values.
-- **Mahalanobis Distance:** Uses `scipy.stats` to calculate multivariate outliers, identifying unusual response patterns across multiple numeric variables based on Chi-Square p-values.
-- **Scrollable UI:** A user-friendly graphical interface capable of handling datasets with hundreds of variables effortlessly.
+## 2. Vibe Coding & Development Approach
+This project was built using the "vibe coding" methodology in collaboration with AI. As the domain expert, my focus was strictly on the methodological architecture rather than manually writing Tkinter boilerplate. I defined the statistical rules for exclusion (e.g., standard deviation thresholds for straightliners, Chi-Square p-value limits for Mahalanobis distance) and critically evaluated the AI-generated code to ensure the statistical transformations were mathematically sound. This demonstrates how AI can be utilized to quickly prototype robust analytical tools while human oversight guarantees methodological correctness.
 
-## 🛠️ Requirements
+## 3. Key Features
+- **Speeder Detection:** Flags respondents who completed the survey suspiciously fast, based on a customizable percentage of the median completion time.
+- **Straightliner Detection:** Calculates row variance across matrix questions to identify respondents giving identical answers (flatlining).
+- **Long String Analysis:** Finds the maximum consecutive identical responses in defined grid questions.
+- **Missing Data Filter:** Flags cases exceeding a specified threshold of missing values.
+- **Multivariate Outliers (Mahalanobis Distance):** Uses `scipy.stats` to calculate Mahalanobis distance, identifying unusual response patterns across a numerical model based on Chi-Square distribution p-values.
+- **Optimized UI:** A scrollable, checkbox-based interface built to comfortably handle datasets with hundreds of variables.
+
+## 4. Security & Data Protection
+**Zero-Cloud Architecture.** Data cleaning is inherently sensitive. This script runs 100% locally on the user's machine using `pandas` and `pyreadstat`. No raw respondent data is sent to external APIs, language models, or cloud servers. This architecture ensures absolute compliance with GDPR and university/corporate data ethics standards.
+
+## 5. Performance & Limitations
+- **In-Memory Processing:** The application processes the dataset entirely in RAM. It is highly performant for typical survey sample sizes (thousands of respondents), but extremely massive datasets may hit system memory limits.
+- **Environment Limit:** The script relies on a hardcoded output directory (`C:\DP_Bazy`), restricting its out-of-the-box use to Windows OS.
+- **Complete Case Analysis:** Currently, the Mahalanobis distance calculation strictly drops NA values (`dropna()`) for the numerical model, which may reduce the evaluated sample size if missing data is prevalent.
+
+## 6. Future Roadmap
+To continue evolving the tool, the following upgrades are planned:
+- **Dynamic Pathing:** Replacing the hardcoded output path with a user-selected directory via GUI.
+- **Detailed Exclusion Logs:** Exporting a `.csv` or `.xlsx` report that flags exactly which rows were removed and by which specific QC test, allowing for better auditing.
+- **Imputation Options:** Adding the ability to impute missing values (e.g., mean/median substitution) before running the Mahalanobis test to preserve sample size.
+
+## 🛠️ Requirements & Execution
 - Python 3.x
-- Libraries: `pandas`, `numpy`, `pyreadstat`, `scipy`
-
-`pip install pandas numpy pyreadstat scipy`
-
-## 📖 How to Use
-1. Run `python odkurzacz_danych.py`.
-2. Load the raw SPSS dataset (`.sav`).
-3. Toggle the desired quality control filters and adjust their specific thresholds.
-4. Select the relevant variables for each test using the checkbox panels.
-5. Click the execution button. The tool will filter the data, generate a summary report, and save the clean dataset to the output directory.
+- Libraries: `pip install pandas numpy pyreadstat scipy`
+- Run: `python odkurzacz_danych.py`
 
 ---
 
 # [PL] Odkurzacz Danych - Automatyczna Kontrola Jakości (QC)
 
-Profesjonalne narzędzie do Kontroli Jakości (QC) dla działów Data Processing. Aplikacja w Pythonie automatyzująca proces wykrywania i usuwania problematycznych obserwacji z baz ankietowych (`.sav`). Implementuje rynkowe standardy czyszczenia danych, włączając w to detekcję wielowymiarowych wartości odstających.
+## 1. Cel projektu
+Lokalna aplikacja z interfejsem graficznym stworzona do automatyzacji kontroli jakości (QC) i czyszczenia baz danych z badań ilościowych (pliki `.sav`). Narzędzie implementuje rynkowe standardy walidacji danych – od podstawowej detekcji speederów po zaawansowane wyszukiwanie wielowymiarowych wartości odstających, zapewniając wysoką rzetelność metodologiczną analizowanego materiału.
 
-## 🚀 Kluczowe Funkcje
-- **Detekcja Speederów:** Identyfikuje obserwacje z nienaturalnie krótkim czasem wypełnienia, bazując na konfigurowalnym progu mediany czasu.
-- **Detekcja Straightlinerów:** Oblicza odchylenie standardowe wierszy dla pytań matrycowych, w celu identyfikacji braku wariancji w odpowiedziach.
-- **Analiza Long Strings:** Wyszukuje najdłuższe ciągi identycznych odpowiedzi w wyznaczonych bateriach pytań.
-- **Filtr Braków Danych:** Weryfikuje i odrzuca obserwacje przekraczające dozwolony próg systemowych braków danych.
-- **Odległość Mahalanobisa:** Wykorzystuje bibliotekę `scipy` do wyliczania wielowymiarowych wartości odstających w modelu numerycznym (weryfikacja na bazie p-value rozkładu chi-kwadrat).
-- **Interfejs UI:** Zoptymalizowany pod kątem dużych baz danych, wykorzystujący przewijane panele wyboru zmiennych.
+## 2. Podejście do tworzenia (Vibe Coding)
+Aplikacja powstała w modelu "vibe codingu" przy ścisłej współpracy z AI. Zamiast skupiać się na ręcznym pisaniu kodu interfejsu, przyjąłem rolę architekta metodologicznego. Zdefiniowałem statystyczne zasady odrzucania obserwacji (np. progi wariancji dla straightlinerów, wykorzystanie rozkładu chi-kwadrat przy odległości Mahalanobisa) i poddałem krytycznej weryfikacji wygenerowane algorytmy. Projekt pokazuje, jak kompetencje badawcze pozwalają skutecznie kierować modelami AI w celu tworzenia profesjonalnych narzędzi analitycznych, gwarantując poprawność matematyczną całego procesu.
 
-## 🛠️ Wymagania
+## 3. Kluczowe Funkcje
+- **Detekcja Speederów:** Identyfikuje zbyt szybkie wypełnienia bazując na konfigurowalnym procencie od mediany czasu z całej próby.
+- **Detekcja Straightlinerów:** Oblicza odchylenie standardowe wierszy w pytaniach matrycowych, identyfikując brak wariancji.
+- **Analiza Long Strings:** Wyszukuje maksymalne ciągi identycznych odpowiedzi w zdefiniowanych blokach pytań.
+- **Filtr Braków Danych:** Odrzuca obserwacje przekraczające dozwolony próg systemowych braków.
+- **Odległość Mahalanobisa:** Wykorzystuje bibliotekę `scipy` do identyfikacji nietypowych wzorców odpowiedzi w modelu numerycznym, bazując na p-value.
+- **Zoptymalizowany Interfejs:** Przewijane panele z checkboxami ułatwiające pracę z bazami liczącymi setki zmiennych.
+
+## 4. Bezpieczeństwo i ochrona danych
+**Brak integracji z chmurą.** Proces czyszczenia danych wymaga najwyższych standardów poufności. Skrypt działa w 100% lokalnie za pomocą bibliotek `pandas` i `pyreadstat`. Żadne dane respondentów nie opuszczają urządzenia i nie są wysyłane do zewnętrznych API. Gwarantuje to pełną zgodność z wymogami RODO oraz standardami etyki badań naukowych i rynkowych.
+
+## 5. Wydajność i ograniczenia
+- **Przetwarzanie w RAM:** Aplikacja ładuje całą bazę do pamięci operacyjnej. Działa błyskawicznie dla typowych prób badawczych, jednak przy gigantycznych zbiorach danych może napotkać limity sprzętowe.
+- **Zależność od Windows:** Ze względu na zaszytą w kodzie ścieżkę zapisu wyników (`C:\DP_Bazy`), program w obecnej formie jest dostosowany do systemu Windows.
+- **Obsługa Braków (Mahalanobis):** Obecnie algorytm liczący odległość Mahalanobisa automatycznie odrzuca obserwacje z brakami danych (`dropna()`) w wybranym modelu, co w specyficznych bazach może zawężać pulę testowanych przypadków.
+
+## 6. Perspektywy rozwoju
+Aplikacja posiada otwartą architekturę, a plany jej rozbudowy obejmują:
+- **Wybór folderu docelowego:** Zastąpienie stałej ścieżki zapisu oknem dialogowym w GUI.
+- **Raport wykluczeń:** Dodanie eksportu pliku `.csv` / `.xlsx` z logami (ID respondenta + powód odrzucenia), co ułatwi audytowanie usuniętych rekordów.
+- **Imputacja danych:** Wprowadzenie opcji zastępowania braków danych (np. średnią/medianą) przed obliczeniem odległości Mahalanobisa, aby nie tracić wielkości próby.
+
+## 🛠️ Wymagania i Uruchomienie
 - Python 3.x
-- Biblioteki: `pandas`, `numpy`, `pyreadstat`, `scipy`
-
-`pip install pandas numpy pyreadstat scipy`
-
-## 📖 Instrukcja Obsługi
-1. Uruchom skrypt `odkurzacz_danych.py`.
-2. Wczytaj surowy plik bazy danych SPSS (`.sav`).
-3. Aktywuj wymagane filtry badawcze i dostosuj ich parametry progowe.
-4. Zaznacz zmienne podlegające analizie na listach wyboru.
-5. Uruchom proces czyszczenia. Program odfiltruje bazę, wyświetli podsumowanie i zapisze gotowy plik wynikowy w folderze docelowym.
+- Biblioteki: `pip install pandas numpy pyreadstat scipy`
+- Uruchomienie: `python odkurzacz_danych.py`
